@@ -15,7 +15,7 @@ A sample `environment.yml` is provided for reproducibility, containing the requi
 - `rasterio`
 - `matplotlib`
 
-### ⚠️ Note on `arcpy`
+### Note on `arcpy`
 This script requires the `arcpy` module to access raster statistics.  
 `arcpy` **cannot be installed using conda or pip** — it is only available via an ArcGIS Pro installation.  
 To run this script successfully:
