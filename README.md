@@ -37,7 +37,7 @@ A sample `environment.yml` file is included in the repository to help recreate t
 
 To create the environment (excluding `arcpy`), run:
 
-conda env create -f environment.yml conda activate lst_env
+``` conda env create -f environment.yml conda activate lst_env ```
 
 ---
 
@@ -60,7 +60,7 @@ Users without access to ArcGIS Pro will **not** be able to execute the script.
 
 After activating the correct environment, run the script:
 
-python lst_script.py
+``` python lst_script.py ```
 
 You will be prompted to enter the full path to your Landsat imagery folder.
 
