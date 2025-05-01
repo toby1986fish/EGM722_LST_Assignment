@@ -1,54 +1,64 @@
 # EGM722 LST Assignment
 
 ## Overview
-This script calculates Land Surface Temperature (LST) from Landsat 8/9 satellite imagery using Python. It includes NDVI, TOA (Top of Atmosphere), PVI (Portional Vegetation Index), E_C (Emissivity Correction), and outputs a final LST raster in Celsius.
+This Python script calculates Land Surface Temperature (LST) using Landsat 8/9 satellite imagery. It performs a full preprocessing workflow including NDVI (Normalised Difference Vegetation Index), PVI (Proportional Vegetation Index), E_C (Emissivity Correction), TOA (Top of Atmosphere) Radiance, BT (Brightness Temperature), and the final LST output in Celsius.
 
 ## Folder Setup
-- Place all downloaded Landsat 8 bands in a single folder.
-- Required bands:
-  - Band 4: B4.TIF
-  - Band 5: B5.TIF
-  - Band 10: B10.TIF
-
-Please note, keep all the bands within the folder, even if they are not used. 
+Ensure the following bands are present in the downloaded Landsat folder:
+- Band 4: B4.TIF (Red)
+- Band 5: B5.TIF (NIR (Near Infra-red))
+- Band 10: B10.TIF (TIR (Thermal Infrared))
 
 ## Environment Setup
-Important Note About arcpy
-This script depends on arcpy, which is only available through the default ArcGIS Pro Python environment (arcgispro-py3).
+A sample `environment.yml` is provided for reproducibility, containing the required open-source packages:
+- `numpy`
+- `rasterio`
+- `matplotlib`
 
-arcpy cannot be installed using conda or pip. For this reason:
+### ⚠️ Note on `arcpy`
+This script requires the `arcpy` module to access raster statistics.  
+`arcpy` **cannot be installed using conda or pip** — it is only available via an ArcGIS Pro installation.  
+To run this script successfully:
 
-Please run the script using ArcGIS Pro's Python Command Prompt.
+- Use the **ArcGIS Pro Python Command Prompt**
+- Or use a Conda environment where `arcpy` is already available (e.g. the default `arcgispro-py3`)
 
-Do not attempt to create a new conda environment that includes arcpy.
+Users without ArcGIS Pro will not be able to execute the script due to this dependency.
 
-The provided environment.yml is included to show the core packages required for this script (numpy, rasterio, matplotlib) and meets reproducibility requirements for the script to successfully run.
+To create the environment without `arcpy`, run:
 
-## Python Script
-Ensure all the required python libraries are installed prior to running the script.
-- numpy	
-- rasterio	
-- glob	
-- os	
-- arcpy	
+conda env create -f environment.yml conda activate lst_env
 
 ## Running the Script
-Run the script from within your new environment. When prompted, enter the `folder path` containing the Landsat imagery.
+After activating the correct environment, run the script:
 
 python lst_script.py
 
+
+You will be prompted to enter the full path to the folder containing your Landsat bands.
+
 ## Outputs
-All output rasters will be saved in a new `Output` folder inside your Landsat folder:
-- NDVI.tif
-- TOA_Radiance.tif
-- BT.tif (Brightness Temperature)
-- PVI.tif
-- Emissivity.tif
-- LST_Celsius.tif
+Output rasters will be saved in a new subfolder called `Output` inside your Landsat folder:
+- `NDVI.tif`
+- `PVI.tif`
+- `Emissivity.tif`
+- `TOA_Radiance.tif`
+- `BT.tif` (Brightness Temperature)
+- `LST_Celsius.tif`
+
+## Troubleshooting
+
+| Issue | Solution |
+|-------|----------|
+| `ModuleNotFoundError: No module named 'arcpy'` | Run from ArcGIS Pro’s Python Command Prompt |
+| `One or more bands not found` | Check that the correct band filenames are in the folder |
+| `PermissionError when saving rasters` | Close the folder in File Explorer and re-run the script |
 
 ## Test Data
-Use USGS EarthExplorer: https://earthexplorer.usgs.gov/
-The script will run with Landsat 8 and Landsat 9 data
+Landsat 8/9 imagery can be downloaded from [USGS EarthExplorer](https://earthexplorer.usgs.gov/)
 
 ## Author
-Mr Tobias Fish EGM722
+Mr Tobias Fish 
+B01008855
+University of Ulster 
+EGM722 Programming for GIS and Remote Sensing
