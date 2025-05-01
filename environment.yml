@@ -1,0 +1,10 @@
+name: lst_env
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.9
+  - rasterio
+  - numpy
+  - arcpy
+  - matplotlib
