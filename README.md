@@ -18,6 +18,8 @@ Use the provided `environment.yml` file to create your Conda environment:
 conda env create -f environment.yml  
 conda activate lst_env
 
+`Note:` This script depends on arcpy, which is only available in ArcGIS Pro’s Python environment. You should run this script from the ArcGIS Pro Python Command Prompt or ensure your base environment includes arcpy.
+
 ## Python Script
 Ensure all the required python libraries are installed prior to running the script.
 - numpy	
