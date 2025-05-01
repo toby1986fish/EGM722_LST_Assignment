@@ -17,3 +17,6 @@ Use the provided `environment.yml` file to create your Conda environment:
 ```bash
 conda env create -f environment.yml
 conda activate lst_env
+
+## Running the Script
+Run the script from within your new environment. When prompted, enter the folder path containing the Landsat imagery.
