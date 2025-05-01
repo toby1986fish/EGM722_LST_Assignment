@@ -13,12 +13,16 @@ This script calculates Land Surface Temperature (LST) from Landsat 8/9 satellite
 Please note, keep all the bands within the folder, even if they are not used. 
 
 ## Environment Setup
-Use the provided `environment.yml` file to create your Conda environment:
+Important Note About arcpy
+This script depends on arcpy, which is only available through the default ArcGIS Pro Python environment (arcgispro-py3).
 
-conda env create -f environment.yml  
-conda activate lst_env
+arcpy cannot be installed using conda or pip. For this reason:
 
-`Note:` This script depends on arcpy, which is only available in ArcGIS Pro’s Python environment. You should run this script from the ArcGIS Pro Python Command Prompt or ensure your base environment includes arcpy.
+Please run the script using ArcGIS Pro's Python Command Prompt.
+
+Do not attempt to create a new conda environment that includes arcpy.
+
+The provided environment.yml is included to show the core packages required for this script (numpy, rasterio, matplotlib) and meets reproducibility requirements for the script to successfully run.
 
 ## Python Script
 Ensure all the required python libraries are installed prior to running the script.
