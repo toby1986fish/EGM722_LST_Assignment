@@ -1,3 +1,4 @@
+# This .gitignore prevents unnecessary or sensitive files (like cache files, personal settings, temporary builds, compiled code, etc.) from being added to your Git repository, keeping it clean and portable.
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
