@@ -1,3 +1,18 @@
+"""
+Land Surface Temperature Analysis Script
+
+This script calculates NDVI, TOA Radiance, Brightness Temperature,
+Emissivity Correction, and Land Surface Temperature (LST) using Landsat 8/9 imagery.
+
+Requirements:
+- Python 3.9+
+- arcpy (ArcGIS Pro)
+- rasterio, numpy
+
+Author: Toby Fish
+Date: [6 May 202]
+"""
+
 import arcpy
 import rasterio
 import numpy as np
