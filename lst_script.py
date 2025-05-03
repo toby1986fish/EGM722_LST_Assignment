@@ -101,7 +101,7 @@ def compute_PVI(ndvi_array):
 
 def compute_emissivity(pvi_array, ndvi_array):
     emissivity = (0.0038 * pvi_array) + 0.985
-    emissivity = np.clip(emissivity, 0.986, 0.99)  # Clamp values to realistic emissivity range for vegetated surfaces
+    emissivity = np.clip(emissivity, 0.986, 0.99)
     water_mask = ndvi_array < 0
     emissivity[water_mask] = 0.992
     return emissivity
@@ -168,5 +168,7 @@ lst_array = compute_LST(BT_array, emissivity_array)
 lst_array_celsius = lst_array - 273.15
 save_raster(lst_celsius_output, lst_array_celsius, profile)
 print(f"LST Min: {lst_array_celsius.min():.2f}°C | Max: {lst_array_celsius.max():.2f}°C")
+
+print("Note: This version was run from the dev branch.")
 
 print("\nAll steps completed successfully!")
