@@ -15,6 +15,12 @@ The workflow is designed for use within a Python environment that supports the `
 
 ---
 
+## Workflow Diagram
+
+![Workflow](https://github.com/user-attachments/assets/52709a2e-42bb-4c35-b070-17c3708d7ba0)
+
+---
+
 ## Folder Setup
 
 Ensure the following three bands are downloaded and stored in the same folder from a single Landsat 8/9 scene / AOI (Area of Interest):

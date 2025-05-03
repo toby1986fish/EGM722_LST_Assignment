@@ -1,26 +1,8 @@
-"""
-Land Surface Temperature Analysis Script
-
-This script calculates NDVI, TOA Radiance, Brightness Temperature,
-Emissivity Correction, and Land Surface Temperature (LST) using Landsat 8/9 imagery.
-
-Requirements:
-- Python 3.9+
-- arcpy (ArcGIS Pro)
-- rasterio, numpy
-
-Author: Toby Fish
-Date: [6 May 2025]
-"""
-
 import arcpy
 import rasterio
 import numpy as np
 import os
-import glob
-
-# Ask the user for the path to the Landsat imagery
-# This allows the script to be reused with different scenes
+import glob2
 
 # ---- User Input for File Path ----
 data_folder = input("Enter the folder path containing your Landsat imagery: ").strip()
@@ -29,15 +11,12 @@ data_folder = input("Enter the folder path containing your Landsat imagery: ").s
 if not os.path.exists(data_folder):
     raise FileNotFoundError(f"Error: The specified folder '{data_folder}' does not exist.")
 
-# Set output folder inside the same directory / This folder will contain the outputs from the worflow
+# Set output folder inside the same directory
 output_folder = os.path.join(data_folder, "Output")
 os.makedirs(output_folder, exist_ok=True)
 
 print(f"Using Landsat imagery from: {data_folder}")
 print(f"Output files will be saved in: {output_folder}")
-
-# Auto-detect the file paths for required Landsat bands
-# Band 4: Red, Band 5: NIR, Band 10: Thermal Infrared
 
 # ---- Auto-Detect Landsat Files ----
 def find_band(pattern):
@@ -118,19 +97,12 @@ emissivity_output = os.path.join(output_folder, "Emissivity.tif")
 lst_output = os.path.join(output_folder, "LST.tif")
 lst_celsius_output = os.path.join(output_folder, "LST_Celsius.tif")
 
-# NDVI = (NIR - Red) / (NIR + Red)
-# This index highlights vegetation.
-
 # ---- Step 1: NDVI ----
 nir_array, profile = read_raster(band_5)
 red_array, _ = read_raster(band_4)
 ndvi_array = compute_NDVI(nir_array, red_array)
 save_raster(ndvi_output, ndvi_array, profile)
 print(f"NDVI Min: {ndvi_array.min():.4f} | Max: {ndvi_array.max():.4f}")
-
-# Step: Convert Band 10 DN values to TOA Radiance
-# Uses gain and bias values from Landsat metadata
-# Ensures compatibility with ArcGIS Pro by adjusting minimum DN
 
 # ---- Step 2: TOA Radiance ----
 min_DN_arcpy, _ = get_arcgis_min_max(band_10)
@@ -140,35 +112,24 @@ TOA_radiance = compute_TOA_radiance(Q_cal, 0.0003342, 0.08000)
 save_raster(toa_output, TOA_radiance, profile)
 print(f"TOA Radiance Min: {TOA_radiance.min():.4f} | Max: {TOA_radiance.max():.4f}")
 
-# Converts TOA Radiance to Brightness Temperature using
-# the thermal constants (K1 and K2) from Landsat metadata
-
 # ---- Step 3: Brightness Temperature ----
 BT_array = compute_BT(TOA_radiance, 774.8853, 1321.0789)
 save_raster(bt_output, BT_array, profile)
 print(f"BT Min: {BT_array.min():.2f}K | Max: {BT_array.max():.2f}K")
 
-# PVI helps classify vegetation cover
-
 # ---- Step 4: PVI ----
 pvi_array = compute_PVI(ndvi_array)
 save_raster(pvi_output, pvi_array, profile)
 
-# Emissivity is estimated from PVI; water bodies are assigned a fixed emissivity
 # ---- Step 5: Emissivity ----
 emissivity_array = compute_emissivity(pvi_array, ndvi_array)
 save_raster(emissivity_output, emissivity_array, profile)
 print(f"Emissivity Min: {emissivity_array.min():.4f} | Max: {emissivity_array.max():.4f}")
-
-# Land Surface Temperature (Kelvin) is derived using Planck's Law
-# Converted to Celsius for easier interpretation
 
 # ---- Step 6: LST ----
 lst_array = compute_LST(BT_array, emissivity_array)
 lst_array_celsius = lst_array - 273.15
 save_raster(lst_celsius_output, lst_array_celsius, profile)
 print(f"LST Min: {lst_array_celsius.min():.2f}°C | Max: {lst_array_celsius.max():.2f}°C")
-
-print("Note: This version was run from the dev branch.")
 
 print("\nAll steps completed successfully!")
