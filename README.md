@@ -102,6 +102,12 @@ Use a recent Level-2 Landsat Collection 2 scene to ensure correct band formats.
 
 ---
 
+## Version Control Notes
+
+This repository includes a development branch (`dev`) where iterative changes and feature testing were carried out before merging into the main branch. This was done to test version control.
+
+---
+
 ## Author
 
 **Mr Tobias Fish**  
