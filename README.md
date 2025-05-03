@@ -17,7 +17,7 @@ The workflow is designed for use within a Python environment that supports the `
 
 ## Workflow Diagram
 
-![image](https://github.com/user-attachments/assets/25c630be-bbce-4edc-a0de-8d7a7332df96)
+![Workflow](https://github.com/user-attachments/assets/52709a2e-42bb-4c35-b070-17c3708d7ba0)
 
 ---
 
