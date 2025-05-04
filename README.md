@@ -104,6 +104,7 @@ Landsat 8/9 imagery can be downloaded for free from:
 
 New users will be required to create a new account on the USGS explorer website.
 A guide on this can be found on **youtube**
+
 Use a recent Level-2 Landsat Collection 2 scene to ensure correct band formats.
 
 ---
