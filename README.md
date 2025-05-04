@@ -100,10 +100,10 @@ Output rasters are saved in a subfolder called `Output` which will sit inside yo
 
 Landsat 8/9 imagery can be downloaded for free from:
 
-📎 [USGS EarthExplorer](https://earthexplorer.usgs.gov/)
+[**USGS EarthExplorer**](https://earthexplorer.usgs.gov/)
 
 New users will be required to create a new account on the USGS explorer website.
-A guide on this can be found on **youtube**
+A guide on this can be found on [**USGS EarthExplorer Youtube Guide**](https://www.youtube.com/watch?v=0FopNH7ybOI)
 
 Use a recent Level-2 Landsat Collection 2 scene to ensure correct band formats.
 
@@ -111,7 +111,16 @@ Use a recent Level-2 Landsat Collection 2 scene to ensure correct band formats.
 
 ## Version Control Notes
 
-This repository includes a development branch (`dev`) where iterative changes and feature testing were carried out before merging into the main branch. This was done to test version control.
+This repository demonstrates effective use of version control through branching.
+
+A dedicated `dev` branch was created for iterative development, testing, and refinement of the script. All major updates — including code cleanup, function restructuring, comment additions, and logic improvements — were first committed to `dev` before being reviewed and merged into `main`.
+
+Using this workflow ensured that:
+- The `main` branch always contained a stable, working version of the project.
+- Experimental changes and updates could be tested safely in isolation.
+- The full development process was traceable through commit history.
+
+This branching approach aligns with best practices in collaborative coding and was implemented to meet the EGM722 assessment criteria for demonstrating version control.
 
 ---
 
