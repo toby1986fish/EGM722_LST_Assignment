@@ -114,6 +114,14 @@ This repository includes a development branch (`dev`) where iterative changes an
 
 ---
 
+## Notes
+
+This repository was developed as part of the EGM722 MSc assessment on Land Surface Temperature (LST) analysis using Landsat 8/9 data. A supporting how-to guide was submitted separately via the Ulster university portal.
+
+Branches were used during development (`dev` branch) and merged into `main` for final submission.
+
+---
+
 ## Author
 
 **Mr Tobias Fish**  
