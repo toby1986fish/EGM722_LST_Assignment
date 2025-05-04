@@ -1,8 +1,14 @@
+"""
+EGM722 - LST Analysis Script
+Author: Tobias Fish
+Description: Calculates NDVI, TOA Radiance, Brightness Temperature, Emissivity and final Land Surface Temperature (LST) from Landsat 8/9 data.
+"""
+
 import arcpy
 import rasterio
 import numpy as np
 import os
-import glob2
+import glob
 
 # ---- User Input for File Path ----
 data_folder = input("Enter the folder path containing your Landsat imagery: ").strip()
@@ -94,10 +100,11 @@ toa_output = os.path.join(output_folder, "TOA_Radiance.tif")
 bt_output = os.path.join(output_folder, "BT.tif")
 pvi_output = os.path.join(output_folder, "PVI.tif")
 emissivity_output = os.path.join(output_folder, "Emissivity.tif")
-lst_output = os.path.join(output_folder, "LST.tif")
 lst_celsius_output = os.path.join(output_folder, "LST_Celsius.tif")
 
 # ---- Step 1: NDVI ----
+# Calculates NDVI using Red and NIR bands.
+# NDVI helps identify vegetation and is needed to estimate emissivity later.
 nir_array, profile = read_raster(band_5)
 red_array, _ = read_raster(band_4)
 ndvi_array = compute_NDVI(nir_array, red_array)
@@ -105,6 +112,8 @@ save_raster(ndvi_output, ndvi_array, profile)
 print(f"NDVI Min: {ndvi_array.min():.4f} | Max: {ndvi_array.max():.4f}")
 
 # ---- Step 2: TOA Radiance ----
+# Reads Thermal Band (Band 10), applies ArcGIS scaling,
+# and converts to Top of Atmosphere Radiance using Landsat metadata.
 min_DN_arcpy, _ = get_arcgis_min_max(band_10)
 Q_cal, profile = read_raster(band_10)
 Q_cal = correct_DN_values(Q_cal, min_DN_arcpy)
@@ -113,23 +122,34 @@ save_raster(toa_output, TOA_radiance, profile)
 print(f"TOA Radiance Min: {TOA_radiance.min():.4f} | Max: {TOA_radiance.max():.4f}")
 
 # ---- Step 3: Brightness Temperature ----
+# Converts TOA Radiance to Brightness Temperature in Kelvin
+# using Planck’s equation with K1 and K2 constants.
 BT_array = compute_BT(TOA_radiance, 774.8853, 1321.0789)
 save_raster(bt_output, BT_array, profile)
 print(f"BT Min: {BT_array.min():.2f}K | Max: {BT_array.max():.2f}K")
 
 # ---- Step 4: PVI ----
+# Computes the Proportional Vegetation Index (PVI)
+# using NDVI range. Helps estimate emissivity.
 pvi_array = compute_PVI(ndvi_array)
 save_raster(pvi_output, pvi_array, profile)
 
 # ---- Step 5: Emissivity ----
+# Estimates land surface emissivity using an empirical model.
+# Applies a fixed value for water bodies (NDVI < 0).
 emissivity_array = compute_emissivity(pvi_array, ndvi_array)
 save_raster(emissivity_output, emissivity_array, profile)
 print(f"Emissivity Min: {emissivity_array.min():.4f} | Max: {emissivity_array.max():.4f}")
 
 # ---- Step 6: LST ----
+# Calculates final Land Surface Temperature (LST) using brightness temperature and emissivity.
+# Converts output from Kelvin to degrees Celsius.
 lst_array = compute_LST(BT_array, emissivity_array)
 lst_array_celsius = lst_array - 273.15
 save_raster(lst_celsius_output, lst_array_celsius, profile)
 print(f"LST Min: {lst_array_celsius.min():.2f}°C | Max: {lst_array_celsius.max():.2f}°C")
 
 print("\nAll steps completed successfully!")
+
+print("\nScript finished. All output files saved to:", output_folder)
+
