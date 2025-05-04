@@ -125,8 +125,11 @@ Branches were used during development (dev branch) and later merged into main fo
 ## Author
 
 Tobias Fish
+
 Student ID: B01008855
+
 Ulster University
+
 EGM722 — Programming for GIS and Remote Sensing
 
-For academic use only (2025).
+*For academic use only (2025).*
